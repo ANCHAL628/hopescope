@@ -41,7 +41,15 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
+const PORT = proces.env.PORT || 5000 ;
 
-app.listen("5000", () => {
+if(process.env.NODE_ENV == "production"){
+  app.use(express.static("client/build")) ;
+  const path = requie("path") ;
+  app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(_dirname,'client','build','index.html '))
+  })
+}
+app.listen(PORT, () => {
   console.log("Backend is running.");
 });
